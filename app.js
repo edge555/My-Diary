@@ -30,8 +30,14 @@ app.get('/',(req,res)=>{
 
 //About page
 app.get('/about',(req,res)=>{
-    res.render('about');
+    res.render('');
 });
+
+// Add Diary
+app.get('/notes/add', (req, res) => {
+    res.render('notes/add');
+});
+
 
 const port = 3000;
 
