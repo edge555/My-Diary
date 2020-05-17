@@ -10,12 +10,17 @@ mongoose.connect('mongodb://localhost/mydiary', { useNewUrlParser: true, useUnif
 .then(()=>console.log('MongoDB Connected'))
 .catch(err => console.log(err));
 
+// Load Note Model
+require('./models/Note');
+const Note = mongoose.model('notes');
+
+// Handlebars Middleware
 app.engine("handlebars", exphbs({
     defaultLayout : 'main'
 }));
 app.set("view engine", "handlebars");
 
-//Index route
+// Index route
 app.get('/',(req,res)=>{
     const title = 'Welcome 1'
     res.render('index',{
