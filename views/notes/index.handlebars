@@ -2,7 +2,8 @@
     <div class="card card-body mb-2">
         <h4>{{title}}</h4>
         <p>{{details}}</p>
+        <a class="btn btn-dark btn-block" href="/notes/edit/{{_id}}">Edit</a>
     </div>
 {{else}}
-    <p>No notes</p>
+    <p>Diary is empty!</p>
 {{/each}}

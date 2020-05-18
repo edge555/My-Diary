@@ -51,9 +51,22 @@ app.get('/notes',(req,res)=>{
     });  
 })
 
-// Add Diary
+// Add notes
 app.get('/notes/add', (req, res) => {
     res.render('notes/add');
+});
+
+// Edit notes
+app.get('/notes/edit/:id', (req, res) => {
+    Note.findOne({
+        _id:req.params.id
+    })
+    .lean()
+    .then(notes => {
+        res.render('notes/edit',{
+            notes:notes
+        });
+    });
 });
 
 // Process form
