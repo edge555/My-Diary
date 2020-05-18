@@ -1,10 +1,12 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
+const flash = require("connect-flash");
+const session = require("express-session");
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
-
+ 
 mongoose.Promise=global.Promise;
 
 // Mongoose Connect
@@ -29,6 +31,25 @@ app.use(bodyParser.json());
 
 // Method override middleware
 app.use(methodOverride('_method'));
+
+// Express session
+app.use(
+  session({
+    secret: 'serect',
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+app.use(flash());
+
+// Global var
+app.use(function(req,res,next){
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 // Index route
 app.get('/',(req,res)=>{
@@ -96,6 +117,7 @@ app.post('/notes',(req,res)=>{
         new Note(newUser)
         .save()
         .then(note =>{
+            req.flash("success_msg", "Note Added");
             res.redirect('/notes');
         })
     }
@@ -111,6 +133,7 @@ app.put("/notes/:id", (req, res) => {
       notes.details=req.body.details;
       notes.save()
       .then(notes =>{
+          req.flash("success_msg", "Note Updated");
           res.redirect('/notes');
       })
   })
@@ -118,11 +141,9 @@ app.put("/notes/:id", (req, res) => {
 
 // Delete notes
 app.delete('/notes/:id',(req,res)=>{
-    Note.remove({
-        _id:req.params.id
-    })
-    .then(()=>{
-        res.redirect('/notes');
+    Note.remove({ _id: req.params.id }).then(() => {
+      req.flash("success_msg", "Note Deleted");
+      res.redirect("/notes");
     });
 })
 
