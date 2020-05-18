@@ -116,6 +116,16 @@ app.put("/notes/:id", (req, res) => {
   })
 });
 
+// Delete notes
+app.delete('/notes/:id',(req,res)=>{
+    Note.remove({
+        _id:req.params.id
+    })
+    .then(()=>{
+        res.redirect('/notes');
+    });
+})
+
 const port = 3000;
 app.listen(port,()=>{
     console.log(`Server stared on port ${port}`);
