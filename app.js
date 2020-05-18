@@ -1,5 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
@@ -25,6 +26,9 @@ app.set("view engine", "handlebars");
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Method override middleware
+app.use(methodOverride('_method'));
 
 // Index route
 app.get('/',(req,res)=>{
@@ -95,6 +99,21 @@ app.post('/notes',(req,res)=>{
             res.redirect('/notes');
         })
     }
+});
+
+// Edit form process
+app.put("/notes/:id", (req, res) => {
+  Note.findOne({
+      _id:req.params.id
+  })
+  .then(notes =>{
+      notes.title = req.body.title;
+      notes.details=req.body.details;
+      notes.save()
+      .then(notes =>{
+          res.redirect('/notes');
+      })
+  })
 });
 
 const port = 3000;
