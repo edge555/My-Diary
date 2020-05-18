@@ -39,6 +39,18 @@ app.get('/about',(req,res)=>{
     res.render('about');
 });
 
+// Notes Index Page
+app.get('/notes',(req,res)=>{
+    Note.find({})
+    .sort({date:'desc'})
+    .lean()
+    .then(notes =>{
+        res.render('notes/index',{
+            notes:notes
+        });
+    });  
+})
+
 // Add Diary
 app.get('/notes/add', (req, res) => {
     res.render('notes/add');
@@ -60,7 +72,15 @@ app.post('/notes',(req,res)=>{
             details:req.body.details
         });
     } else{
-        res.send('passed');
+        const newUser={
+            title:req.body.title,
+            details:req.body.details
+        }
+        new Note(newUser)
+        .save()
+        .then(note =>{
+            res.redirect('/notes');
+        })
     }
 });
 
