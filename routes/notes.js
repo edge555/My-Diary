@@ -1,13 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
+const {ensureAuthenticated}= require('../helper/auth');
+
+
 module.exports = router;
 // Load Note Model
 require('../models/Note');
 const Note = mongoose.model('notes');
 
 // Notes Index Page
-router.get('/', (req, res) => {
+router.get('/',ensureAuthenticated, (req, res) => {
     Note.find({})
         .sort({ date: 'desc' })
         .lean()
@@ -19,12 +22,12 @@ router.get('/', (req, res) => {
 })
 
 // Add notes
-router.get('/add', (req, res) => {
+router.get('/add',ensureAuthenticated, (req, res) => {
     res.render('notes/add');
 });
 
 // Edit notes
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     Note.findOne({
         _id: req.params.id
     })
@@ -37,7 +40,7 @@ router.get('/edit/:id', (req, res) => {
 });
 
 // Process form
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
     let errors = [];
     if (!req.body.title) {
         errors.push({ text: 'Title cant be emtpy' });
@@ -66,7 +69,7 @@ router.post('/', (req, res) => {
 });
 
 // Edit form process
-router.put('/:id', (req, res) => {
+router.put('/:id', ensureAuthenticated, (req, res) => {
     Note.findOne({
         _id: req.params.id
     })
@@ -82,7 +85,7 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete notes
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
     Note.remove({ _id: req.params.id }).then(() => {
         req.flash("success_msg", "Note Deleted");
         res.redirect("/notes");

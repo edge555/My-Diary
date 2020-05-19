@@ -78,6 +78,12 @@ router.post('/register',(req,res)=>{
                 });
             }
         });
-        
     }
+});
+
+// Logout user
+router.get('/logout',(req,res)=>{
+  req.logOut();
+  req.flash('success_msg','Logged Out');
+  res.redirect('/users/login');
 });
