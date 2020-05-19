@@ -11,7 +11,7 @@ const Note = mongoose.model('notes');
 
 // Notes Index Page
 router.get('/',ensureAuthenticated, (req, res) => {
-    Note.find({})
+    Note.find({user:req.user.id})
         .sort({ date: 'desc' })
         .lean()
         .then(notes => {
@@ -33,9 +33,14 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     })
         .lean()
         .then(notes => {
-            res.render('notes/edit', {
-                notes: notes
-            });
+            if(notes.user!=req.user.id){
+                req.flash('error_msg','Not authorized');
+                res.redirect('/notes');
+            }else{
+                res.render('notes/edit', {
+                    notes: notes
+                });
+            }
         });
 });
 
@@ -57,7 +62,8 @@ router.post('/', ensureAuthenticated, (req, res) => {
     } else {
         const newUser = {
             title: req.body.title,
-            details: req.body.details
+            details: req.body.details,
+            user : req.user._id
         }
         new Note(newUser)
             .save()
