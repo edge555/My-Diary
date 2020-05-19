@@ -31,17 +31,17 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     Note.findOne({
         _id: req.params.id
     })
-        .lean()
-        .then(notes => {
-            if(notes.user!=req.user.id){
-                req.flash('error_msg','Not authorized');
-                res.redirect('/notes');
-            }else{
-                res.render('notes/edit', {
-                    notes: notes
-                });
-            }
-        });
+    .lean()
+    .then(notes => {
+        if(notes.user!=req.user.id){
+            req.flash('error_msg','Not authorized');
+            res.redirect('/notes');
+        }else{
+            res.render('notes/edit', {
+                notes: notes
+            });
+        }
+    });
 });
 
 // Process form

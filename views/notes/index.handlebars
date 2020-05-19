@@ -1,6 +1,7 @@
 {{#each notes}}
     <div class="card card-body mb-2">
-        <h4>{{title}}</h4>
+        <h6 style="color: brown;">{{date}}</h6>
+        <h3>{{title}}</h4>
         <p>{{details}}</p>
         <a class="btn btn-dark btn-block mb-2" href="/notes/edit/{{_id}}">Edit</a>
         <form method="post" action="/notes/{{_id}}?_method=DELETE">

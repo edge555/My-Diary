@@ -15,11 +15,13 @@ const users = require('./routes/users');
 
 // Passport config
 require('./config/passport')(passport);
+//DB config
+const db = require('./config/database');
 
 mongoose.Promise=global.Promise;
 
 // Mongoose Connect
-mongoose.connect('mongodb://localhost/mydiary', { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(db.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true})
 .then(()=>console.log('MongoDB Connected'))
 .catch(err => console.log(err));
 
@@ -82,7 +84,7 @@ app.get('/about',(req,res)=>{
 app.use('/notes',notes);
 app.use('/users',users);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port,()=>{
     console.log(`Server stared on port ${port}`);
 });
