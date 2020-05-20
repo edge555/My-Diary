@@ -21,7 +21,7 @@ const db = require('./config/database');
 mongoose.Promise=global.Promise;
 
 // Mongoose Connect
-mongoose.connect(db.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect("mongodb+srv://admin-shoaib2:test123@mydiary2-zeh2t.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true})
 .then(()=>console.log('MongoDB Connected'))
 .catch(err => console.log(err));
 
