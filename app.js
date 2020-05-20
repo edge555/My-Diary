@@ -15,8 +15,6 @@ const users = require('./routes/users');
 
 // Passport config
 require('./config/passport')(passport);
-//DB config
-const db = require('./config/database');
 
 mongoose.Promise=global.Promise;
 
@@ -78,7 +76,6 @@ app.get('/',(req,res)=>{
 app.get('/about',(req,res)=>{
     res.render('about');
 });
-
 
 // Use routes
 app.use('/notes',notes);
