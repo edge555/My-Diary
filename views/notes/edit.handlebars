@@ -1,5 +1,5 @@
 <div class="card card-body">
-    <h3>Edit Notes</h3>
+    <h3 style="text-align: center">Edit Notes</h3>
     <form action="/notes/{{notes._id}}?_method=PUT" method="post">
         <input type="hidden" name="_method" value="PUT">
         <div class="form-group">
@@ -10,6 +10,8 @@
             <label for="details">Title</label>
             <textarea class="form-control" name="details" required>{{notes.details}}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div style="text-align: center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
     </form>
 </div>
