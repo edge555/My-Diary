@@ -1,0 +1,10 @@
+<div class="card card-body mb-2">
+    <h6 style="color: brown;">{{notes.date}}</h6>
+    <h3>{{notes.title}}</h4>
+        <p>{{notes.details}}</p>
+        <a class="btn btn-dark btn-block mb-2" href="/notes/edit/{{notes._id}}">Edit</a>
+        <form method="post" action="/notes/{{notes._id}}?_method=DELETE">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" class="btn btn-danger btn-block" value="Delete">
+        </form>
+</div>

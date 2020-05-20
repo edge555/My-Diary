@@ -3,11 +3,7 @@
         <h6 style="color: brown;">{{date}}</h6>
         <h3>{{title}}</h4>
         <p>{{details}}</p>
-        <a class="btn btn-dark btn-block mb-2" href="/notes/edit/{{_id}}">Edit</a>
-        <form method="post" action="/notes/{{_id}}?_method=DELETE">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" class="btn btn-danger btn-block" value="Delete">
-        </form>
+        <a class="btn btn-dark btn-block mb-2" href="/notes/open/{{_id}}">Open</a>
     </div>
 {{else}}
     <div class="jumbotron text" style="text-align: center">

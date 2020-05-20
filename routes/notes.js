@@ -44,6 +44,24 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
+router.get('/open/:id',ensureAuthenticated,(req,res)=>{
+    Note.findOne({
+        _id:req.params.id
+    })
+    .lean()
+    .then(notes=>{
+        if (notes.user != req.user.id) {
+            req.flash('error_msg', 'Not authorized');
+            res.redirect('/notes');
+        } else {
+            res.render('notes/open', {
+                notes: notes
+            });
+        }
+    })
+    //res.render("notes/open");
+});
+
 // Process form
 router.post('/', ensureAuthenticated, (req, res) => {
     let errors = [];
@@ -84,7 +102,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
             notes.details = req.body.details;
             notes.save()
                 .then(notes => {
-                    req.flash("success_msg", "Note Updated");
+                    req.flash("success_msg", "Note Edited");
                     res.redirect('/notes');
                 })
         })
